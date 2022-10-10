@@ -1,3 +1,17 @@
+## BadgeFactory frontend 
+- A user can login with any web3 wallet provider (Using connectButton from react-moralis)
+- After login, user can 
+- 1. deploy badges contract
+- 2. a mint page for users to mint selected badge edition 
+- 3. a view page to view minted badge 
+- 4. A list of deployed badges contract by currently logged in user 
+- 5. A list of all deployed badges contract on selected chain 
+- More.. 
+
+
+- Building with Next.js, React-Moralis, React
+<details>
+<summary> Next.js readme </summary>
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -32,3 +46,4 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+</details>
