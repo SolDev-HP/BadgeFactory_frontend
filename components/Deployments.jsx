@@ -11,7 +11,7 @@ export default function Deployments() {
             <TabList
                 defaultActiveKey={1}
                 onChange={function noRefCheck(){}}
-                style={{ "background-color": "rgb(248,249,250)", "height" : "100%", "padding-left" : "15px" }}
+                style={{ "backgroundColor": "rgb(248,249,250)", "height" : "100%", "paddingLeft" : "15px" }}
             >
                 <Tab
                     lineHeight={30}

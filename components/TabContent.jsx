@@ -1,4 +1,3 @@
-import { useMoralis } from "react-moralis";
 import BadgeDeployTab from "./BadgeDeployTab";
 import BadgeMintTab from "./BadgeMintTab";
 import BadgeViewTab from "./BadgeViewTab";
@@ -8,20 +7,18 @@ import { useState, useEffect } from "react";
 
 export default function TabContent(props) {
 
-    const { isWeb3Enabled, isAuthenticated } = useMoralis()
     const [ isEtherPresent, setEtherPresent ] = useState(false)
 
-    // const { isEthereumAvailable } = etherPresent()
     useEffect(() => {
-        if(!etherPresent()) {
-            setEtherPresent(false)
+        if(etherPresent()) {
+            setEtherPresent(true)
             return
         }
-        setEtherPresent(true)
+        setEtherPresent(false)
     }, [])
 
     if (isEtherPresent) {
-        if (isWeb3Enabled) {
+        if (props.userLoggedIn) {
             // Check props and display content accordingly 
             if (props.tabid == 1) {
                 return (<BadgeDeployTab />)

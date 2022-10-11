@@ -1,32 +1,41 @@
-import { ConnectButton, Dropdown } from "web3uikit"
-import { Dapps } from '@web3uikit/icons'
+import { Button, ConnectButton, Dropdown } from "web3uikit"
 import { Navbar, Container } from "react-bootstrap"
-import { useEffect } from "react"
-import { useMoralis, useChain } from "react-moralis"
+import { useEffect, useState } from "react"
+import { ethers } from "ethers"
+import { etherPresent } from "../utils/check_ethereum"
 
 function Header() {
+    const [ connectedWallet, setConnectedWallet ] = useState('Connect With Wallet')
+    const [ ethereumPresent, setEthereumPresent ] = useState(false)
 
-    const { isWeb3Enabled, chainId, network } = useMoralis()
     useEffect(() => {
-        // Whenever Web3Enabled changes, check for login status
-        // If logged in
-        if(isWeb3Enabled) {
-            // Check for supported chainID. currently we support 
-            // ETH-Goerli (5 - 0x5) and Optimism-Goerli (420 - 0x1A4)
-            console.log(chainId)
-            // console.log(network)    // evm
-
-        } else {
-            console.log("User is not authenticated")
+        if(etherPresent()) {
+            setEthereumPresent(true)
+            return
         }
-    }, [isWeb3Enabled]);
+        setEthereumPresent(false)
+    }, [])
+
+    async function performUserLogin() {
+        // If ethereum exists 
+        const provider = new ethers.providers.Web3Provider(window.ethereum); //Using injected one by metamask
+        await provider.send('eth_requestAccounts', []);
+        const signer = provider.getSigner()
+        try {
+            const signerAddress = await signer.getAddress()
+            const walletstatestr = `Connected:  ${signerAddress.slice(0, 6)}...${signerAddress.slice(signerAddress.length - 4)}`
+            setConnectedWallet(walletstatestr)
+        } catch {
+            setConnectedWallet("Connect With Wallet")
+        }
+    }
 
     return (
         <Navbar bg="light" expand="lg" className="">
             <Container>
                 <Navbar.Brand href="#">BadgeFactory</Navbar.Brand>
                 <Navbar.Collapse className="justify-content-end">
-                    <Dropdown
+                    {/* <Dropdown
                         className="network-chainid-selection"
                         defaultOptionIndex={1}
                         icon={<Dapps fontSize='18px'/>}
@@ -49,10 +58,18 @@ function Header() {
                                 value: 'test2'
                             }
                         ]}
-                        //isDisabled="true"
+                        isDisabled="true"
                         hasOutline="true"
+                    /> */}
+                    {/* * Remove react moralis connectbutton and prepare login button from the groundup
+                    <ConnectButton moralisAuth={false} /> */}
+
+                    <Button
+                        onClick={performUserLogin}
+                        text={connectedWallet}
+                        theme="outline"
+                        {...(!ethereumPresent && { disabled: true })}   // Disable if there's no injected ethereum in window obj
                     />
-                    <ConnectButton moralisAuth={false} />
                 </Navbar.Collapse>
             </Container>
         </Navbar>

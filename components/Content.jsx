@@ -2,15 +2,11 @@ import { Tab, TabList } from "web3uikit";
 import TabContent from "./TabContent";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
+import { etherPresent } from "../utils/check_ethereum";
 
-export default function Content() {
+export default function Content(props) {
     const { isWeb3Enabled, chainId } = useMoralis()
-
-    useEffect(() => {
-        // Get chainID
-        console.log(chainId)
-        
-    }, [])
+    const [ walletConnected, setWalletConnected ] = useState(false)
 
     return (
         <div className="container">
@@ -19,32 +15,32 @@ export default function Content() {
                 isWidthAuto
                 onChange={function noRefCheck(){}}
                 tabStyle="bulbUnion"
-                style={{ "background-color": "rgb(248,249,250)" }}
+                style={{ "backgroundColor": "rgb(248,249,250)" }}
             >
                 <Tab
                     lineHeight={30}
                     tabKey={1}
                     tabName="Deploy Badges"
-                    isDisabled={!isWeb3Enabled}
+                    isDisabled={!props.userLoggedIn}
                 >
-                    <div> <TabContent tabid="1" /> </div>
+                    <div> <TabContent tabid="1" userLoggedIn={props.userLoggedIn} /> </div>
                 </Tab>
 
                 <Tab
                     lineHeight={30}
                     tabKey={2}
                     tabName="Mint Badge"
-                    isDisabled={!isWeb3Enabled}
+                    isDisabled={!props.userLoggedIn}
                 >
-                    <div>  <TabContent tabid="2" /> </div>
+                    <div>  <TabContent tabid="2" userLoggedIn={props.userLoggedIn} /> </div>
                 </Tab>
                 <Tab
                     lineHeight={30}
                     tabKey={3}
                     tabName="View Badge"
-                    isDisabled={!isWeb3Enabled}
+                    isDisabled={!props.userLoggedIn}
                 >
-                    <div> <TabContent tabid="3" /> </div>
+                    <div> <TabContent tabid="3" userLoggedIn={props.userLoggedIn} /> </div>
                 </Tab>
             </TabList>
         </div>
