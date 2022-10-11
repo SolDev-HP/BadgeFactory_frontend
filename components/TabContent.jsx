@@ -28,10 +28,10 @@ export default function TabContent(props) {
                 return (<BadgeViewTab />)
             } 
         } else {
-            return (<ErrorTab errormsg="Connect Wallet" />);
+            return (<ErrorTab errormsg="Connect Wallet" fullheight={true} />);
         }
     } else {
-        return (<ErrorTab errormsg="Install Metamask or any Web3 enabled wallet" />)
+        return (<ErrorTab errormsg="Install Metamask or any Web3 enabled wallet" fullheight={true} />)
     }
 
     // It may not come here, but in case we can't find any injected ethereum

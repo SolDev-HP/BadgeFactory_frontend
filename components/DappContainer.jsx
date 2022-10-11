@@ -24,6 +24,8 @@ export default function DappContainer() {
         setEthereumPresent(false)
     }, [])
 
+    // When login button is clicked
+    // this function checks if user is trying to login or logout, and change connectedWallet accordingly
     async function performUserLogin() {
         // Check if local connection exists
         if(localStorage.getItem("connectedWallet") !== null) {

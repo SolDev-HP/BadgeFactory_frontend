@@ -14,7 +14,7 @@ import { useWeb3ExecuteFunction, useMoralis, useWeb3Contract } from "react-moral
 import { BADGEFACTORY_ABI, BADGEFACTORY_ADDRESS_ETH_GOERLI, BADGEFACTORY_ADDRESS_OP_GOERLI, BADGEFACTORY_LOCAL } from "../contracts/badgefactory_config.js";
 import { useEffect, useState } from "react";
 
-export default function AllDeploymentsTab() {
+export default function AllDeploymentsTab(props) {
 
     // Fetch first data of get_total_badges_deployers
     const { data: alldeployersData, error: alldeployersError, fetch: alldeployersFetch, isFetching: alldeployersOIsFetching, isLoading: alldeployersIsLoading } = useWeb3ExecuteFunction({

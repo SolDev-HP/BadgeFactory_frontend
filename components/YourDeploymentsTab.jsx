@@ -4,7 +4,7 @@ import { useWeb3ExecuteFunction, useMoralis, useWeb3Contract } from "react-moral
 import { BADGEFACTORY_ABI, BADGEFACTORY_ADDRESS_ETH_GOERLI, BADGEFACTORY_ADDRESS_OP_GOERLI, BADGEFACTORY_LOCAL } from "../contracts/badgefactory_config.js";
 import { useEffect, useState } from "react";
 
-export default function YourDeploymentsTab() {
+export default function YourDeploymentsTab(props) {
 
     const { isWeb3Enabled, account } = useMoralis();
 
