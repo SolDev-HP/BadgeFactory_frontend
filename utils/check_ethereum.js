@@ -3,7 +3,7 @@
 
 function etherPresent() {
     //console.log(typeof window.ethereum)
-    return typeof window !== 'undefined' && typeof window.ethereum !== 'undefined'
+    return typeof window !== "undefined" && typeof window.ethereum !== "undefined"
 }
 
 export { etherPresent }

@@ -3,56 +3,38 @@ import BadgeDeployTab from "./BadgeDeployTab";
 import BadgeMintTab from "./BadgeMintTab";
 import BadgeViewTab from "./BadgeViewTab";
 import { etherPresent } from "../utils/check_ethereum";
+import ErrorTab from "./ErrorTab";
+import { useState, useEffect } from "react";
 
 export default function TabContent(props) {
 
     const { isWeb3Enabled, isAuthenticated } = useMoralis()
+    const [ isEtherPresent, setEtherPresent ] = useState(false)
 
-    // useEffect(() => {
-    //     console.log("User Authentication")
-    //     console.log(isAuthenticated)
-    // }, [isAuthenticated])
+    // const { isEthereumAvailable } = etherPresent()
+    useEffect(() => {
+        if(!etherPresent()) {
+            setEtherPresent(false)
+            return
+        }
+        setEtherPresent(true)
+    }, [])
 
-    // DOESN'T WORK [ FIX THIS ]
-    // if (!etherPresent()) {
-    //     return (
-    //         <div className="tab-fixed-common">
-    //             <div 
-    //                 style={{
-    //                     margin: '0 auto',
-    //                     padding: '0 auto',
-    //                     height: '100%',
-    //                     lineHeight: '27'
-    //                 }} 
-    //             >
-    //                 Install Metamask or any Web3 enabled wallet </div>               
-    //         </div>    
-    //     );
-    // } else 
-
-    if (isWeb3Enabled) {
-
-        // Check props and display content accordingly 
-        if (props.tabid == 1) {
-            return (<BadgeDeployTab />)
-        } else if (props.tabid == 2) {
-            return (<BadgeMintTab />)
+    if (isEtherPresent) {
+        if (isWeb3Enabled) {
+            // Check props and display content accordingly 
+            if (props.tabid == 1) {
+                return (<BadgeDeployTab />)
+            } else if (props.tabid == 2) {
+                return (<BadgeMintTab />)
+            } else {
+                return (<BadgeViewTab />)
+            } 
         } else {
-            return (<BadgeViewTab />)
-        } 
+            return (<ErrorTab errormsg="Connect Wallet" />);
+        }
     } else {
-        return (
-            <div className="tab-fixed-common">
-                <div 
-                    style={{
-                        margin: '0 auto',
-                        padding: '0 auto',
-                        height: '100%',
-                        lineHeight: '27'
-                    }} 
-                > Connect Wallet </div>               
-            </div>    
-        );
+        return (<ErrorTab errormsg="Install Metamask or any Web3 enabled wallet" />)
     }
 
     // It may not come here, but in case we can't find any injected ethereum
