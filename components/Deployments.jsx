@@ -20,7 +20,7 @@ export default function Deployments() {
                     isDisabled={!isWeb3Enabled}
                 >
                     {/* <div> <All> </div> */}
-                    <div>Test</div>
+                    <YourDeploymentsTab />
                 </Tab>
 
                 <Tab
