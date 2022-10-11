@@ -11,7 +11,7 @@
 //    }
 
 import { useWeb3ExecuteFunction, useMoralis } from "react-moralis";
-import { BADGEFACTORY_ABI, BADGEFACTORY_ADDRESS_ETH_GOERLI, BADGEFACTORY_ADDRESS_OP_GOERLI } from "../contracts/badgefactory_config.js";
+import { BADGEFACTORY_ABI, BADGEFACTORY_ADDRESS_ETH_GOERLI, BADGEFACTORY_ADDRESS_OP_GOERLI, BADGEFACTORY_LOCAL } from "../contracts/badgefactory_config.js";
 import { useEffect } from "react";
 
 export default function AllDeploymentsTab() {
@@ -20,7 +20,7 @@ export default function AllDeploymentsTab() {
 
     const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
         abi: BADGEFACTORY_ABI,
-        contractAddress: BADGEFACTORY_ADDRESS_ETH_GOERLI,
+        contractAddress: BADGEFACTORY_LOCAL,
         functionName: "get_total_badges_deployers"
     });
 
@@ -34,7 +34,14 @@ export default function AllDeploymentsTab() {
     return (
         <div>
             {error && <div>ERRRORRRRR</div>}
-            <button onClick={() => fetch()} />
+            <button onClick={() => fetch()}> TestButton </button>
+            {data && <pre>
+                {JSON.stringify(data,
+                    null,
+                    2,
+                )}
+                </pre> 
+            }
         </div>
     );
 }
