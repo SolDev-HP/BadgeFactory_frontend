@@ -1,10 +1,8 @@
-import { useEffect } from "react";
 import { useMoralis } from "react-moralis";
-import { Skeleton } from "web3uikit"
-import { MinusCircle } from '@web3uikit/icons'
 import BadgeDeployTab from "./BadgeDeployTab";
 import BadgeMintTab from "./BadgeMintTab";
 import BadgeViewTab from "./BadgeViewTab";
+import { etherPresent } from "../utils/check_ethereum";
 
 export default function TabContent(props) {
 
@@ -14,6 +12,23 @@ export default function TabContent(props) {
     //     console.log("User Authentication")
     //     console.log(isAuthenticated)
     // }, [isAuthenticated])
+
+    // DOESN'T WORK [ FIX THIS ]
+    // if (!etherPresent()) {
+    //     return (
+    //         <div className="tab-fixed-common">
+    //             <div 
+    //                 style={{
+    //                     margin: '0 auto',
+    //                     padding: '0 auto',
+    //                     height: '100%',
+    //                     lineHeight: '27'
+    //                 }} 
+    //             >
+    //                 Install Metamask or any Web3 enabled wallet </div>               
+    //         </div>    
+    //     );
+    // } else 
 
     if (isWeb3Enabled) {
 
@@ -26,7 +41,6 @@ export default function TabContent(props) {
             return (<BadgeViewTab />)
         } 
     } else {
-        // console.log("Web3 is not enabled")
         return (
             <div className="tab-fixed-common">
                 <div 
@@ -36,8 +50,7 @@ export default function TabContent(props) {
                         height: '100%',
                         lineHeight: '27'
                     }} 
-                >
-                    Install Metamask / Connect Wallet </div>               
+                > Connect Wallet </div>               
             </div>    
         );
     }
