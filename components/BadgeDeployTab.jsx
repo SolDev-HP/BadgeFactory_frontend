@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Form, Skeleton } from "web3uikit";
-import { useWeb3ExecuteFunction, useMoralis, useWeb3Contract } from "react-moralis";
 import { BADGEFACTORY_ABI, BADGEFACTORY_ADDRESS_ETH_GOERLI, BADGEFACTORY_ADDRESS_OP_GOERLI, BADGEFACTORY_LOCAL, GENERATOR_LIB_LOCAL } from "../contracts/badgefactory_config.js";
+import { ethers } from "ethers";
 
 // Take a default object to store user entered data
 const badgeDeployFormData = Object.freeze({
@@ -22,30 +22,39 @@ export default function BadgeDeployTab() {
         });
     };
 
-    // Function interaction hook
-    const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
-        abi: BADGEFACTORY_ABI,
-        contractAddress: BADGEFACTORY_LOCAL,
-        functionName: "deploy_badges_erc721_with_erc20_attached",
-    });
-
     // Handle form submit. We need a way to verify EXP token address
     // name and symbol could be taken as they are 
     const handleFormSubmit = (e) => {
         //e.preventDefault()
         console.log(formdata);
-        () => fetch({
-            params: {
-                "aEXPTokenAddress": formdata.input_0,
-                "aSelectedLibrary": GENERATOR_LIB_LOCAL,
-                "sName": formdata.input_1,
-                "sSymbol": formdata.input_2
-            }
-        });
-        if(error) {
-            console.log(error)
+        // Perform ethers' tx - deploy badges
+        async function perform_badge_deploy() {
+            const provider = new ethers.providers.Web3Provider(window.ethereum)
+            await provider.send('eth_requestAccounts', []); // Not required as per the flow, but just in case use midway changes the wallet
+            const signer = provider.getSigner()
+            const signerAddress = await signer.getAddress()
+
+            // Prepare contract location 
+            const chainID = await (await provider.getNetwork()).chainId // why?? :')
+            // Based on chainID, select appropriate badgefactory address
+            const badgeFactoryContract = new ethers.Contract(
+                chainID === 5777 ? BADGEFACTORY_LOCAL : chainID === 420 ? BADGEFACTORY_ADDRESS_OP_GOERLI : BADGEFACTORY_ADDRESS_ETH_GOERLI,
+                BADGEFACTORY_ABI,
+                signer      //This time we need the signer, as this tx needs signing
+            ) 
+            // Make sure we have the address
+            console.log(badgeFactoryContract.address)
+            const deploy_tx = await badgeFactoryContract.deploy_badges_erc721_with_erc20_attached(
+                formdata.input_0,
+                GENERATOR_LIB_LOCAL,
+                formdata.input_1,
+                formdata.input_2
+            )
+
+            await deploy_tx.wait()
+            console.log(deploy_tx);
         }
-        console.log(data)
+        perform_badge_deploy()
     };
 
     return (

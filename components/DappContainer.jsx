@@ -61,7 +61,7 @@ export default function DappContainer() {
     }, [connectedWallet])
 
     return(
-        <>
+        <div>
             {/** Header, logo on left and connect button on right */}
             <Navbar bg="light" expand="lg" className="">
                 <Container>
@@ -83,9 +83,9 @@ export default function DappContainer() {
             {/** Content, tabs for Deploy Badges, Mint Badge, View Badge/Props */}
             <Content userLoggedIn={isUserLoggedIn} />
             {/** A box to show deployed contracts, one tab for self and other for global */}
-            <Deployments userLoggedIn={isUserLoggedIn} />
+            { ethereumPresent ? (<Deployments userLoggedIn={isUserLoggedIn} />) : (<></>) }
             {/** Footer, badgefactory and links */}
             <Footer userLoggedIn={isUserLoggedIn} />
-        </>
+        </div>
     )
 }

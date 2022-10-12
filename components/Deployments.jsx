@@ -3,12 +3,13 @@ import AllDeploymentsTab from "./AllDeploymentsTab";
 import YourDeploymentsTab from "./YourDeploymentsTab";
 import { etherPresent } from "../utils/check_ethereum";
 import ErrorTab from "./ErrorTab";
+import { useEffect, useState } from "react";
 
 export default function Deployments(props) {
     return (
         <div className="container deployment-container">
             {/** Check if ethereum is injected, don't render tablist if not present */}
-            { etherPresent() ? (<TabList
+            <TabList
                 defaultActiveKey={1}
                 onChange={function noRefCheck(){}}
                 style={{ "backgroundColor": "rgb(248,249,250)", "height" : "100%", "paddingLeft" : "15px" }}
@@ -24,7 +25,7 @@ export default function Deployments(props) {
                         props.userLoggedIn ? (
                             <YourDeploymentsTab userLoggedIn={props.userLoggedIn} />
                         ) : (
-                            <ErrorTab errormsg="Connect Wallet" />
+                            <ErrorTab errormsg="Connect Wallet" fullheight={false} />
                         )
                     }
                     
@@ -40,11 +41,11 @@ export default function Deployments(props) {
                         props.userLoggedIn ? (
                             <AllDeploymentsTab userLoggedIn={props.userLoggedIn} />
                         ) : (
-                            <ErrorTab errormsg="Connect Wallet" />
+                            <ErrorTab errormsg="Connect Wallet" fullheight={false} />
                         )
                     }
                 </Tab>
-            </TabList>) : (<></>) }
+            </TabList>
         </div>
     );
 }
