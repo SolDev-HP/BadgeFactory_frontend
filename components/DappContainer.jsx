@@ -17,6 +17,14 @@ export default function DappContainer() {
     const [ isUserLoggedIn, setUserLoggedIn ] = useState(false)
 
     useEffect(() => {
+        if(localStorage.getItem("connectedWallet") !== null) {
+            // If we happen to find the connectedWallet, perform login without indicating
+            localStorage.removeItem("connectedWallet")
+            // For userlogin to perform, we need to remove the localstorage and let the function set it 
+            // after confirmation
+            performUserLogin()
+            return
+        }
         if(etherPresent()) {
             setEthereumPresent(true)
             return
@@ -65,7 +73,7 @@ export default function DappContainer() {
             {/** Header, logo on left and connect button on right */}
             <Navbar bg="light" expand="lg" className="">
                 <Container>
-                    <Navbar.Brand href="#">BadgeFactory</Navbar.Brand>
+                    <Navbar.Brand href="./">BadgeFactory</Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
                         {/* <Dropdown /> */}
                         {/* * Remove react moralis connectbutton and prepare login button from the groundup

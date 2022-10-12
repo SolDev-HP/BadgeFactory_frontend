@@ -31,7 +31,7 @@ export default function YourDeploymentsTab(props) {
             <ul>
                 {/** Display list of owner deployments */}
                 {  addressList.length !== 0 ? 
-                    addressList.map(item => <li key={item.badge_name}>{item.contract_address} -- {item.badge_symbol}</li>)
+                    addressList.map(item => <li key={item.badge_name}>{item.contract_address} -- <a href={'?address='+item.contract_address}>{item.badge_symbol}</a></li>)
                     : <li>You don't have any badges deployed yet.</li> 
                 }
             </ul>

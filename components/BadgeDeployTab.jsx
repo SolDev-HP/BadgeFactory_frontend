@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Form, Skeleton } from "web3uikit";
 import { BADGEFACTORY_ABI, BADGEFACTORY_ADDRESS_ETH_GOERLI, BADGEFACTORY_ADDRESS_OP_GOERLI, BADGEFACTORY_LOCAL, GENERATOR_LIB_LOCAL } from "../contracts/badgefactory_config.js";
 import { ethers } from "ethers";
+import badgesimage from "../assets/badgeFactory_ethernaut.svg";
 
 // Take a default object to store user entered data
 const badgeDeployFormData = Object.freeze({
@@ -9,6 +10,8 @@ const badgeDeployFormData = Object.freeze({
     input_1 : "EthernautDAO",
     input_2 : "eBadge"
 });
+
+console.log(badgesimage)
 
 export default function BadgeDeployTab() {
 
@@ -64,7 +67,7 @@ export default function BadgeDeployTab() {
                     display: 'flex'
                 }}
             >
-                {/* <img
+                <img
                     style={{
                         width: '250px',
                         height: '250px',
@@ -72,8 +75,8 @@ export default function BadgeDeployTab() {
                         marginTop: '40px',
                         marginRight: '5px'
                     }} 
-                    src=""/> */}
-                <Skeleton 
+                    src={badgesimage.src} />
+                {/* <Skeleton 
                     style={{
                         width: '250px',
                         height: '250px',
@@ -82,7 +85,7 @@ export default function BadgeDeployTab() {
                         marginRight: '5px'
                     }} 
                     theme="image" 
-                />
+                /> */}
                 <center>
                 <Form
                     buttonConfig={{

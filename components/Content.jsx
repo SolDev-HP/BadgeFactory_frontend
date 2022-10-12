@@ -3,15 +3,17 @@ import TabContent from "./TabContent";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 import { etherPresent } from "../utils/check_ethereum";
+import { useRouter } from "next/router";
 
 export default function Content(props) {
     const { isWeb3Enabled, chainId } = useMoralis()
     const [ walletConnected, setWalletConnected ] = useState(false)
+    const router = useRouter()
 
     return (
         <div className="container">
             <TabList
-                defaultActiveKey={1}
+                defaultActiveKey={router.query["address"] === undefined ? 1 : 2}
                 isWidthAuto
                 onChange={function noRefCheck(){}}
                 tabStyle="bulbUnion"
