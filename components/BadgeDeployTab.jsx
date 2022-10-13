@@ -11,7 +11,7 @@ const badgeDeployFormData = Object.freeze({
     input_2 : "eBadge"
 });
 
-console.log(badgesimage)
+// console.log(badgesimage)
 
 export default function BadgeDeployTab() {
 
@@ -29,7 +29,7 @@ export default function BadgeDeployTab() {
     // name and symbol could be taken as they are 
     const handleFormSubmit = (e) => {
         //e.preventDefault()
-        console.log(formdata);
+        // console.log(formdata);   // Print submitted form data for debug
         // Perform ethers' tx - deploy badges
         async function perform_badge_deploy() {
             const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -46,7 +46,7 @@ export default function BadgeDeployTab() {
                 signer      //This time we need the signer, as this tx needs signing
             ) 
             // Make sure we have the address
-            console.log(badgeFactoryContract.address)
+            // console.log(badgeFactoryContract.address)
             const deploy_tx = await badgeFactoryContract.deploy_badges_erc721_with_erc20_attached(
                 formdata.input_0,
                 GENERATOR_LIB_LOCAL,
@@ -55,7 +55,7 @@ export default function BadgeDeployTab() {
             )
 
             await deploy_tx.wait()
-            console.log(deploy_tx);
+            // console.log(deploy_tx);  // Deployment tx hash
         }
         perform_badge_deploy()
     };

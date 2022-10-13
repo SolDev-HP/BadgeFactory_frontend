@@ -9,26 +9,39 @@
 //              get_nth_badges_contract_address(deployer, index of contract)
 //          }
 //    }
-
-import { BADGEFACTORY_ABI, BADGEFACTORY_ADDRESS_ETH_GOERLI, BADGEFACTORY_ADDRESS_OP_GOERLI, BADGEFACTORY_LOCAL } from "../contracts/badgefactory_config.js";
-import getAllDeployments from "../services/all_deployments.js";
+import getAllDeployments from "../services/all_deployments";
 import { useState, useEffect } from "react";
 
 export default function AllDeploymentsTab(props) {
-
+    const [ addList, setAddressList ] = useState([])
+    // run once, check for user address and get total deployments 
     useEffect(() => {
+        if(!props.userLoggedIn) return
+        // How do we load data in one shot, and then update addressList which later can be
+        // mapped to list items 
+        let mounted = true;
+        // If user is logged in, get the provider, signer, and signer address
+        // if(addressList.length === 0) {
+        //     setAddressList(getuserDeployments())
+        // }
         getAllDeployments()
+        .then(addresses => {
+            if(mounted) {   
+                setAddressList(addresses)
+            }
+        })
+        return () => mounted = false;
     }, [])
-    // Fetch first data of get_total_badges_deployers
-
-    // Need a custom object that can hold all contract addresses 
-    // So that we can use that as state to update when we come out of 
-    // useEffect's hellish looking await -> then() deep calls
-    // Until we find a better solution for this.
 
     return (
         <div>
-           {/** This should print total deployers number */}
+            <ul>
+                {/** Display list of owner deployments */}
+                { addList && addList.length !== 0 ? 
+                    addList.map(item => <li key={item.contract_address}>{item.contract_address} -- <a href={'?address='+item.contract_address}>{item.badge_symbol}</a></li>)
+                    : <li>There are no badges deployed</li> 
+                }
+            </ul>
         </div>
     );
 }

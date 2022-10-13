@@ -11,7 +11,7 @@ async function getuserDeployments() {
     try {
         const signerAddress = signer.getAddress()
         const chainID = await (await provider.getNetwork()).chainId // why?? :')
-        console.log(chainID)
+        // console.log(chainID)
         // Based on chainID, select appropriate badgefactory address
         const badgeFactoryContract = new ethers.Contract(
             chainID === 5777 ? BADGEFACTORY_LOCAL : chainID === 420 ? BADGEFACTORY_ADDRESS_OP_GOERLI : BADGEFACTORY_ADDRESS_ETH_GOERLI,
@@ -19,7 +19,7 @@ async function getuserDeployments() {
             provider
         ) 
         // Make sure we have the address
-        console.log(badgeFactoryContract.address)
+        // console.log(badgeFactoryContract.address)
         try {
             // get_total_badges_deployments_by_owner(address)
             const totalDeploys = await badgeFactoryContract.get_total_badges_deployments_by_owner(signerAddress)
@@ -27,7 +27,7 @@ async function getuserDeployments() {
             for(let i = 0; i < totalDeploys_int; i++) {
                 // For each deployment, get the address
                 const badges_deployed_at = await badgeFactoryContract.get_nth_badges_contract_address(signerAddress, i)
-                console.log(badges_deployed_at)
+                // console.log(badges_deployed_at)
                 // Prepare the contract 
                 const badges_contract = new ethers.Contract(badges_deployed_at, ERC721METADATA_ABI, provider)
                 const badgesName = await badges_contract.name()
